@@ -42,7 +42,7 @@
     export default class HelloWorld extends Vue {
         @Prop() private msg!: string;
 
-        @Prop() private bodyMsg: string;
+        private bodyMsg: string;
 
         constructor() {
             super();
