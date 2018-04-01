@@ -6,7 +6,7 @@ services:
     environment:
       NODE_ENV: production
     volumes:
-      - ./Caddyfile:/etc/Caddyfile
+      - ./CaddyFile:/etc/CaddyFile
     ports:
       - "80:80"
   ops-server:
