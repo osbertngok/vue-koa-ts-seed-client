@@ -2,6 +2,9 @@ FROM abiosoft/caddy
 ENV PROJECT_NAME vue-koa-ts-seed-client
 MAINTAINER osbertngok<osbertngok@gmail.com>
 
+# Add curl for debug purpose; comment this for prod
+# RUN apk add --no-cache curl
+
 RUN mkdir /app
 WORKDIR /app
 COPY ./dist /app/

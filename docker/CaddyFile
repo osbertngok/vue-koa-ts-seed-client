@@ -1,0 +1,6 @@
+*:80 {
+	root /app
+    gzip
+
+    proxy /api/ ops-server:2333
+}

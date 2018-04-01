@@ -1,0 +1,17 @@
+version: '3'
+services:
+  ops-client:
+    image: vue_koa_ts_seed_client
+    container_name: ops_client
+    environment:
+      NODE_ENV: production
+    volumes:
+      - ./Caddyfile:/etc/Caddyfile
+    ports:
+      - "80:80"
+  ops-server:
+    image: vue_koa_ts_seed_server
+    container_name: ops_server
+    environment:
+      NODE_ENV: production
+

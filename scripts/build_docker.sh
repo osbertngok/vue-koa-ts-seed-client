@@ -11,7 +11,10 @@ DOCKER_IMAGE_WITH_VERSION=${PROJECT_NAME}:${COMMIT_SHA_SHORT}
 cd ${PROJECT_DIR}
 
 # preparation for building
-yarn cache clean && rm -rf node_modules/ && yarn
+
+# comment this to speed up, but probably should enable for prod
+# yarn cache clean
+rm -rf node_modules/ && yarn
 yarn run build
 
 # build and tag latest
