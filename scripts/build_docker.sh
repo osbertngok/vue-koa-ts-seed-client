@@ -19,6 +19,4 @@ yarn run build
 
 # build and tag latest
 docker build -t ${DOCKER_IMAGE_WITH_VERSION} -f docker/DockerFile .
-echo ${DOCKER_IMAGE_WITH_VERSION}
-echo ${DOCKER_IMAGE_LATEST}
 docker tag ${DOCKER_IMAGE_WITH_VERSION} ${DOCKER_IMAGE_LATEST}
