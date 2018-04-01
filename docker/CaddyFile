@@ -1,6 +1,8 @@
 *:80 {
 	root /app
-    gzip
+    gzip {
+        not /api
+    }
 
     proxy /api/ ops-server:2333 {
         transparent
