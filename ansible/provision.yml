@@ -1,0 +1,97 @@
+- hosts: all
+  gather_facts: False
+  tasks:
+    - name: apt-get update
+      become: true
+      command: apt-get update
+      tags: [apt]
+
+    - name: Install aptitude
+      raw: test ! -e /usr/bin/aptitude && apt-get install -qq aptitude || true
+      become: true
+      tags: [apt]
+
+- hosts: all
+  pre_tasks:
+    - name: update apt & upgrade
+      apt:
+        update_cache: yes
+        upgrade: safe
+      become: true
+      tags: [apt]
+
+    - block:
+        # https://www.freedesktop.org/software/systemd/man/journald.conf.html
+        - name: update journald.conf
+          lineinfile:
+            path: /etc/systemd/journald.conf
+            regexp: "{{ item.regexp }}"
+            line: "{{ item.line }}"
+            insertafter: "\\[Journal\\]"
+            create: yes
+          with_items:
+            - {regexp: "Storage=", line: "Storage=persistent"}
+            - {regexp: "ForwardToSyslog=", line: "ForwardToSyslog=no"}
+            - {regexp: "RateLimitBurst=", line: "RateLimitBurst=0"}
+
+        - name: restart systemd-journald
+          systemd:
+            name: systemd-journald
+            state: restarted
+
+      become: true
+      tags: [journald]
+
+    - block:
+      - name: ensure /etc/docker exists
+        file:
+          path: /etc/docker
+          state: directory
+
+      - name: copy Docker daemon config
+        copy:
+          src: docker-daemon.json
+          dest: /etc/docker/daemon.json
+
+      # We need to activate daemon.json on all servers and delete files
+      # in the next directory. They were created by angstwad.docker_ubuntu role,
+      # to pass options to Docker daemon.
+      #
+      # root@im302url-nyc3-01:~# cat /etc/systemd/system/docker.service.d/docker.conf
+      # [Service]
+      # ExecStart=
+      # ExecStart=/usr/bin/docker daemon -H fd:// $DOCKER_OPTS
+      # root@im302url-nyc3-01:~# cat /etc/systemd/system/docker.service.d/env.conf
+      # [Service]
+      # Environment="DOCKER_OPTS=--storage-driver=overlay2"
+      #
+      # Delete this step, when no servers have those files (and daemon.json is applied).
+      - name: delete /etc/systemd/system/docker.service.d/
+        file:
+          path: /etc/systemd/system/docker.service.d/
+          state: absent
+      become: true
+      tags: [docker-config]
+
+  roles:
+    # https://github.com/angstwad/docker.ubuntu
+    - role: angstwad.docker_ubuntu
+      # Options from https://github.com/angstwad/docker.ubuntu/blob/master/defaults/main.yml
+      update_docker_package: true
+      docker_aufs_enabled: false
+      become: true
+      tags: [apt, docker]
+
+  post_tasks:
+    - block:
+      - name: systemctl restart docker
+        become: true
+        systemd:
+          name: docker
+          state: restarted
+
+    - block:
+      - name: chage root password set time
+        become: true
+        command: sudo chage -d 17439 root
+

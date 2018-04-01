@@ -1,0 +1,12 @@
+all:
+  vars:
+    ansible_connection: ssh
+    ansible_port: 22
+    ansible_ssh_private_key_file: ~/.ssh/id_ed25519
+    ansible_python_interpreter: /usr/bin/python3
+  children:
+    ops_web:
+      hosts:
+        test-sgp-01:
+          ansible_host: 139.59.109.7
+
