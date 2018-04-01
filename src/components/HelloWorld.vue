@@ -59,7 +59,7 @@
                 const enc: ITextDecoder = new window.TextDecoder('utf-8');
                 this.bodyMsg += enc.decode(value);
             };
-            const res: Response = await fetch('api/v1/ping', {
+            const res: Response = await fetch('api/v1/utils/ping', {
                 credentials: 'same-origin',
             });
             if (res && res.body) {

@@ -28,7 +28,7 @@ export default class LogoutForm extends Vue {
 
   public async mountedAsync() {
     try {
-      const res = await axios.post('/logout');
+      const res = await axios.post('/api/v1/user/logout');
       console.log(res);
       this.message = 'You have logged out successfully';
     } catch (error) {

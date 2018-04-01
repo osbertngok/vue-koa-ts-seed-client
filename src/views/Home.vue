@@ -22,7 +22,7 @@ export default class Home extends Vue {
 
   public async mountedAsync() {
     try {
-      const res = await axios.get('/user');
+      const res = await axios.get('/api/v1/user');
       if (!res.data) {
         this.$router.push('/login');
       }

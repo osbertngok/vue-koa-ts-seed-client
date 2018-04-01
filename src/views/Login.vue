@@ -41,7 +41,7 @@ export default class LoginForm extends Vue {
 
   public async onSubmit() {
     try {
-      const res = await axios.post('/login', this.form);
+      const res = await axios.post('/api/v1/user/login', this.form);
       console.log(res);
       this.$router.push('/');
     } catch (error) {
