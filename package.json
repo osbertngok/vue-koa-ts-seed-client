@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build",
     "test": "vue-cli-service test",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "build-docker": "./scripts/build_docker.sh"
   },
   "dependencies": {
     "axios": "^0.18.0",
