@@ -12,5 +12,5 @@ docker save vue_koa_ts_seed_server:latest | bzip2 | pv | ssh ${DEST} 'bunzip2 | 
 
 ssh ${DEST} 'mkdir -p /opt/main/ops_web'
 scp ${PROJECT_DIR}/docker/docker-compose.yml ${DEST}:/opt/main/ops_web/
-scp ${PROJECT_DIR}/docker/CaddyFile ${DEST}:/opt/main/ops_web/
+scp ${PROJECT_DIR}/docker/Caddyfile ${DEST}:/opt/main/ops_web/
 ssh ${DEST} "sudo docker-compose -f /opt/main/ops_web/docker-compose.yml up --force-recreate -d"
