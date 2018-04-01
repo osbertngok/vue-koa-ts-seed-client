@@ -57,14 +57,6 @@
       # in the next directory. They were created by angstwad.docker_ubuntu role,
       # to pass options to Docker daemon.
       #
-      # root@im302url-nyc3-01:~# cat /etc/systemd/system/docker.service.d/docker.conf
-      # [Service]
-      # ExecStart=
-      # ExecStart=/usr/bin/docker daemon -H fd:// $DOCKER_OPTS
-      # root@im302url-nyc3-01:~# cat /etc/systemd/system/docker.service.d/env.conf
-      # [Service]
-      # Environment="DOCKER_OPTS=--storage-driver=overlay2"
-      #
       # Delete this step, when no servers have those files (and daemon.json is applied).
       - name: delete /etc/systemd/system/docker.service.d/
         file:
