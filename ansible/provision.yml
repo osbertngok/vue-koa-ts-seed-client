@@ -95,3 +95,17 @@
         become: true
         command: sudo chage -d 17439 root
 
+- hosts: all
+  gather_facts: False
+  tasks:
+    - name: ensure /opt/main exists
+      file:
+        path: '/opt/main'
+        state: directory
+      tags: [folder]
+
+    - name: ensure /opt/data exists
+      file:
+        path: '/opt/data'
+        state: directory
+      tags: [folder]
