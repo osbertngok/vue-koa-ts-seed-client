@@ -2,5 +2,7 @@
 	root /app
     gzip
 
-    proxy /api/ ops-server:2333
+    proxy /api/ ops-server:2333 {
+        transparent
+    }
 }
